@@ -1,0 +1,47 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+var map;
+function initMap() {
+
+  var models = {% print(models)|safe %} ;
+
+  var terminales = models.terminales;
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.6006355, lng: -58.3821696},
+    zoom: 14
+  });
+  
+  for (var i = 0; i < terminales.length; i++) {
+    create_marker(terminales[i]);
+  }
+}
+
+function create_marker(terminal) {
+  var myLatLng = {lat: parseFloat(terminal.lat), lng: parseFloat(terminal.lng)};
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: terminal.name
+  });
+}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbfbMNpQ3mLh5mUMFOavsQptWYzZQ5CTI&callback=initMap">
+    </script>
+  </body>
+</html>
