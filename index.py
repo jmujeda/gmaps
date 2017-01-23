@@ -16,24 +16,25 @@ def bondis():
 	terminales = []
 	recorridos = []
 	count = 0
+	countCoordenadas = 0
 	for register in f:
 		cols = register.split(';')
 		linea = get_linea(cols[2])
 		add_linea(lineas, linea)
-
-		
 
 		lngLats = cols[0][13:len(cols[0]) - 2].split(',')
 		lngLat = lngLats[0].split()
 		sentido = cols[5]
 		res["sentido"] = sentido
 
+		countCoordenadas += len(lngLats)
+
 		#if 'IDA' in sentido:
 			#add_terminal(terminales, lngLat, linea)
 
-		#if linea == '132':
-		recorrido = get_recorrido(cols[0])
-		recorridos.append(recorrido)
+		if ('IDA' in sentido) and ( linea == '39'): # linea == '152' or
+			recorrido = get_recorrido(cols[0])
+			recorridos.append(recorrido)
 			#recorrido = cols[0]
 			#lngLat = recorrido[13:len(recorrido) - 2].split(',')
 			#res['linea39'] = repr(lngLat[0])
@@ -42,8 +43,14 @@ def bondis():
 	res['terminales'] = terminales
 	res['cant_lineas'] = len(lineas)
 	res['lineas'] = lineas
+	logMsg("Cantidad de coordendas: " + str(countCoordenadas))
+#	res['cantCoordenadas'] = countCoordenadas
 	#print(res['lineas'], file=sys.stderr)
 	return json.JSONEncoder().encode(res)
+
+
+def logMsg(msg):
+	print(msg,file=sys.stderr)
 
 
 # Saca las comillas del numero de linea
@@ -88,4 +95,4 @@ def main():
 	return render_template('mapa.html', models=a)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')

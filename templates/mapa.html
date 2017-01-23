@@ -34,7 +34,10 @@ function initMap() {
   }
 
   for (var i = 0; i < recorridos.length; i++) {
-    create_line(recorridos[i]);
+    //create_line(recorridos[i]);
+    for (var j = 0; j < recorridos[i].length; j++) {
+      create_marker(recorridos[i][j]);
+    }
   }
 
 
@@ -57,7 +60,7 @@ function create_marker(terminal) {
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
-    title: terminal.name
+    title: myLatLng.lat + "//" + myLatLng.lng
   });
 }
 
